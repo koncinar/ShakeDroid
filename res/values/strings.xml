@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ShakeDroid</string>
+    <string name="button_start">Start</string>
+    <string name="button_stop">Stop</string>
+    <string name="hello_world">0\n0\n0</string>
+</resources>
