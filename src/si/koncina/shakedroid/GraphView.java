@@ -6,9 +6,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.stat.StatUtils;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static si.koncina.shakedroid.Statistics.ease;
 
 /**
  * This view draws graphs. It receives a List of arrays of values and
@@ -42,6 +47,8 @@ public class GraphView extends View {
      */
     public void setValues(List<float[]> values) {
         this.values = values;
+        float[][] floats = values.toArray(new float[][]{});
+        RealMatrix matrix = new Array2DRowRealMatrix();
         invalidate();
     }
 
@@ -67,7 +74,8 @@ public class GraphView extends View {
         } else {
             p.setColor(COLORS[i]);
         }
-        drawGraph(canvas, p, extract(values, i));
+        double[] oneDValues = extract(values, i);
+        drawGraph(canvas, p, ease(oneDValues, 10));
     }
 
     /**
@@ -79,28 +87,29 @@ public class GraphView extends View {
      * <code>i = 1</code><br/>
      * <code>extract(values, i) = {2, 5, 8}</code>
      *
+     *
      * @param values List of arrays (aka. 2-dimensional array)
-     * @param i index of the value to be extracted
+     * @param k index of the value to be extracted
      * @return List of values.
      */
-    private List<Float> extract(List<float[]> values, int i) {
-        List<Float> floats = new ArrayList<Float>();
-        for (float[] value : values) {
-            floats.add(value[i]);
+    private double[] extract(List<float[]> values, int k) {
+        double[] vector = new double[values.size()];
+        for (int i = 0; i < values.size(); i++) {
+            vector[i] = values.get(i)[k];
         }
-        return floats;
+        return vector;
     }
 
-    private void drawGraph(Canvas canvas, Paint p, List<Float> points) {
+    private void drawGraph(Canvas canvas, Paint p, double[] points) {
         int h = getHeight();
         int w = getWidth();
-        for (int i = 0, pointsSize = points.size(); i < pointsSize - 1; i++) {
-            Float point1 = points.get(i);
-            Float point2 = points.get(i + 1);
+        for (int i = 0, pointsSize = points.length; i < pointsSize - 1; i++) {
+            double point1 = points[i];
+            double point2 = points[i + 1];
             float x1 = i * w / pointsSize;
-            float y1 = (point1 + (AMPLITUDE / 2)) * h / AMPLITUDE;
+            float y1 = (float) ((point1 + (AMPLITUDE / 2)) * h / AMPLITUDE);
             float x2 = (i + 1) * w / pointsSize;
-            float y2 = (point2 + (AMPLITUDE / 2)) * h / AMPLITUDE;
+            float y2 = (float) ((point2 + (AMPLITUDE / 2)) * h / AMPLITUDE);
             canvas.drawLine(x1, y1, x2, y2, p);
         }
     }
