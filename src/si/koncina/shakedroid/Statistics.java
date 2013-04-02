@@ -8,7 +8,6 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
  * User: rok
  * Date: 1.4.2013
  * Time: 9:53
- * To change this template use File | Settings | File Templates.
  */
 public class Statistics {
     public static double[] ease(double[] values, int amplitude) {
@@ -23,7 +22,7 @@ public class Statistics {
         return easedValues;
     }
 
-    public double[][] toDouble(float[][] values) {
+    public static double[][] toDouble(float[][] values) {
         if (values == null || values.length == 0 || values[0].length == 0) {
             return new double[0][0];
         }

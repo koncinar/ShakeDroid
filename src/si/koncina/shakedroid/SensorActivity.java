@@ -42,7 +42,12 @@ class SensorActivity extends Activity implements SensorEventListener {
      * Returns currently saved values.
      * @return all currently saved values
      */
-    public List<float[]> getAllValues() {
-        return new ArrayList<float[]>(allValues);
+    public float[][] getAllValues() {
+        if (allValues == null || allValues.size() == 0) {
+            return new float[0][0];
+        }
+        float[][] allValuesArray = new float[allValues.size()][allValues.get(0).length];
+        allValues.toArray(allValuesArray);
+        return allValuesArray;
     }
 }

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 
+import static si.koncina.shakedroid.Statistics.toDouble;
+
 public class ShakeDroid extends Activity {
     private static final NumberFormat SENSOR_NUMBER_FORMAT = NumberFormat.getNumberInstance();
 
@@ -75,7 +77,8 @@ public class ShakeDroid extends Activity {
      */
     private void stopReading() {
         stopSensor();
-        graphView.setValues(sensorActivity.getAllValues());
+        float[][] values = sensorActivity.getAllValues();
+        graphView.setValues(toDouble(values));
         sensorActivity.clearValues();
         alternateStartStopButtons(true);
     }

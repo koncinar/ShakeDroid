@@ -14,6 +14,7 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import java.util.List;
 
 import static si.koncina.shakedroid.Statistics.ease;
+import static si.koncina.shakedroid.Statistics.toDouble;
 
 /**
  * This view draws graphs. It receives a List of arrays of values and
@@ -24,7 +25,7 @@ public class GraphView extends View {
     private static final int AMPLITUDE = 40;
     private static final int[] COLORS = new int[]{Color.RED, Color.GREEN, Color.BLUE, Color.GRAY};
 
-    private List<float[]> values;
+    private RealMatrix valuesMatrix;
 
     public GraphView(Context context) {
         super(context);
@@ -45,10 +46,8 @@ public class GraphView extends View {
      * Set values to be drawn on graph.
      * @param values to be drawn
      */
-    public void setValues(List<float[]> values) {
-        this.values = values;
-        float[][] floats = values.toArray(new float[][]{});
-        RealMatrix matrix = new Array2DRowRealMatrix();
+    public void setValues(double[][] values) {
+        valuesMatrix = new Array2DRowRealMatrix(values);
         invalidate();
     }
 
@@ -59,23 +58,21 @@ public class GraphView extends View {
         p.setColor(Color.LTGRAY);
         int heightHalf = getHeight() / 2;
         canvas.drawLine(0, heightHalf, getWidth(), heightHalf, p);
-        if (values != null && values.size() > 0) {
-            float[] floats = values.get(0);
-            for (int i = 0; i < floats.length; i++) {
-                drawGraph(canvas, values, i);
+        if (valuesMatrix != null && valuesMatrix.getRowDimension() > 0 && valuesMatrix.getColumnDimension() > 0) {
+            for (int i = 0; i < valuesMatrix.getColumnDimension(); i++) {
+                drawGraph(canvas, valuesMatrix.getColumn(i), i);
             }
         }
     }
 
-    private void drawGraph(Canvas canvas, List<float[]> values, int i) {
+    private void drawGraph(Canvas canvas, double[] values, int i) {
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
         if (i >= COLORS.length) {
             p.setColor(Color.BLACK);
         } else {
             p.setColor(COLORS[i]);
         }
-        double[] oneDValues = extract(values, i);
-        drawGraph(canvas, p, ease(oneDValues, 10));
+        drawGraph(canvas, p, ease(values, 10));
     }
 
     /**
@@ -88,14 +85,15 @@ public class GraphView extends View {
      * <code>extract(values, i) = {2, 5, 8}</code>
      *
      *
+     *
      * @param values List of arrays (aka. 2-dimensional array)
      * @param k index of the value to be extracted
      * @return List of values.
      */
-    private double[] extract(List<float[]> values, int k) {
-        double[] vector = new double[values.size()];
-        for (int i = 0; i < values.size(); i++) {
-            vector[i] = values.get(i)[k];
+    private double[] extract(double[][] values, int k) {
+        double[] vector = new double[values.length];
+        for (int i = 0; i < values.length; i++) {
+            vector[i] = values[i][k];
         }
         return vector;
     }
