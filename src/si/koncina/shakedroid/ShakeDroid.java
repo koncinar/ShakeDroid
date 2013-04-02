@@ -29,6 +29,7 @@ public class ShakeDroid extends Activity {
     private Sensor accelerometer;
     private SensorActivity sensorActivity;
     private Spinner easingSpinner;
+    private CheckBox showExtremesCheckBox;
 
     /**
      * Called when the activity is first created.
@@ -59,6 +60,13 @@ public class ShakeDroid extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+        showExtremesCheckBox = (CheckBox) findViewById(R.id.show_extremes);
+        showExtremesCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                graphView.setShowExtremes(b);
             }
         });
     }

@@ -4,6 +4,8 @@
     <string name="button_start">Start</string>
     <string name="button_stop">Stop</string>
     <string name="hello_world">0\n0\n0</string>
+    <string name="easing">Easing:</string>
+    <string name="show_extremes">Show extremes:</string>
     <string-array name="easings">
         <item>None</item>
         <item>Light</item>
