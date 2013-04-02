@@ -11,6 +11,9 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
  */
 public class Statistics {
     public static double[] ease(double[] values, int amplitude) {
+        if (amplitude <= 0) {
+            return values.clone();
+        }
         StatUtils.mean(values);
         DescriptiveStatistics ds = new DescriptiveStatistics(2 * amplitude + 1);
         double[] easedValues = new double[values.length];

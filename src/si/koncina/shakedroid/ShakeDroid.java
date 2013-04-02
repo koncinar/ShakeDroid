@@ -5,8 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.*;
 
 import java.text.NumberFormat;
 
@@ -29,6 +28,7 @@ public class ShakeDroid extends Activity {
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private SensorActivity sensorActivity;
+    private Spinner easingSpinner;
 
     /**
      * Called when the activity is first created.
@@ -47,6 +47,20 @@ public class ShakeDroid extends Activity {
         startButton = (Button) findViewById(R.id.start_recording_button);
         stopButton = (Button) findViewById(R.id.stop_recording_button);
         infoTextView = (TextView) findViewById(R.id.text_panel);
+        easingSpinner = (Spinner) findViewById(R.id.easing_spinner);
+        ArrayAdapter<CharSequence> easings = ArrayAdapter.createFromResource(this, R.array.easings, android.R.layout.simple_spinner_item);
+        easings.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        easingSpinner.setAdapter(easings);
+        easingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                graphView.setEasing(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
     }
 
     private void prepareSensors() {

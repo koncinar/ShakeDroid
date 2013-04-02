@@ -26,6 +26,7 @@ public class GraphView extends View {
     private static final int[] COLORS = new int[]{Color.RED, Color.GREEN, Color.BLUE, Color.GRAY};
 
     private RealMatrix valuesMatrix;
+    private int easing;
 
     public GraphView(Context context) {
         super(context);
@@ -44,6 +45,7 @@ public class GraphView extends View {
 
     /**
      * Set values to be drawn on graph.
+     *
      * @param values to be drawn
      */
     public void setValues(double[][] values) {
@@ -72,30 +74,7 @@ public class GraphView extends View {
         } else {
             p.setColor(COLORS[i]);
         }
-        drawGraph(canvas, p, ease(values, 10));
-    }
-
-    /**
-     * This method converts 2-dimensional array of values into one-dimensional. It extracts all i-th values from each
-     * array.<br/>
-     * <br/>
-     * For example:<br/>
-     * <code>values = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}</code><br/>
-     * <code>i = 1</code><br/>
-     * <code>extract(values, i) = {2, 5, 8}</code>
-     *
-     *
-     *
-     * @param values List of arrays (aka. 2-dimensional array)
-     * @param k index of the value to be extracted
-     * @return List of values.
-     */
-    private double[] extract(double[][] values, int k) {
-        double[] vector = new double[values.length];
-        for (int i = 0; i < values.length; i++) {
-            vector[i] = values[i][k];
-        }
-        return vector;
+        drawGraph(canvas, p, ease(values, easing));
     }
 
     private void drawGraph(Canvas canvas, Paint p, double[] points) {
@@ -110,5 +89,28 @@ public class GraphView extends View {
             float y2 = (float) ((point2 + (AMPLITUDE / 2)) * h / AMPLITUDE);
             canvas.drawLine(x1, y1, x2, y2, p);
         }
+    }
+
+    public void setEasing(int easing) {
+        switch (easing) {
+            case 0:
+                this.easing = 0;
+                break;
+            case 1:
+                this.easing = 1;
+                break;
+            case 2:
+                this.easing = 2;
+                break;
+            case 3:
+                this.easing = 5;
+                break;
+            case 4:
+                this.easing = 10;
+                break;
+            default:
+                this.easing = 0;
+        }
+        invalidate();
     }
 }

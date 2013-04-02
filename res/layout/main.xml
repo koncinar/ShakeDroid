@@ -26,5 +26,9 @@
             android:layout_width="fill_parent"
             android:layout_height="300dp"
             android:id="@+id/graph_panel"/>
+    <Spinner
+            android:id="@+id/easing_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
 </LinearLayout>
 
