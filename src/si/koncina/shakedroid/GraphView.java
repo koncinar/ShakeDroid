@@ -94,6 +94,11 @@ public class GraphView extends View {
         }
     }
 
+    /**
+     * Sets the easing of the graph. Allowed numbers are 0, 1, 2, 3 and 4. 0 means no easing, 4 means maximum easing.
+     * Every other number will set easing to 0.
+     * @param easing the intensity of easing
+     */
     public void setEasing(int easing) {
         switch (easing) {
             case 0:
@@ -117,6 +122,10 @@ public class GraphView extends View {
         invalidate();
     }
 
+    /**
+     * Should extremes be visible on graph or not. If this is set to false, extremes are not calculated.
+     * @param showExtremes should extremes be visible
+     */
     public void setShowExtremes(boolean showExtremes) {
         this.showExtremes = showExtremes;
         invalidate();
