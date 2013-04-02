@@ -20,16 +20,27 @@ public class Statistics {
      * @return eased values
      */
     public static double[] ease(double[] values, int amplitude) {
+        if (values == null || values.length == 0) {
+            return new double[0];
+        }
         if (amplitude <= 0) {
             return values.clone();
         }
-        StatUtils.mean(values);
         DescriptiveStatistics ds = new DescriptiveStatistics(2 * amplitude + 1);
         double[] easedValues = new double[values.length];
-        for (int i = 0; i < values.length; i++) {
-            double value = values[i];
-            ds.addValue(value);
-            easedValues[i] = ds.getMean();
+        for (int i = 0; i <= amplitude; i++) {
+            ds.addValue(values[0]);
+        }
+        for (int i = 0; i < amplitude; i++) {
+            ds.addValue(values[i]);
+        }
+        for (int i = amplitude; i < values.length; i++) {
+            ds.addValue(values[i]);
+            easedValues[i - amplitude] = ds.getMean();
+        }
+        for (int i = values.length; i < values.length + amplitude; i++) {
+            ds.addValue(values[values.length - 1]);
+            easedValues[i - amplitude] = ds.getMean();
         }
         return easedValues;
     }
