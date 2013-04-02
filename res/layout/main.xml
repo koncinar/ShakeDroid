@@ -33,7 +33,7 @@
                     android:id="@+id/text_panel"/>
             <si.koncina.shakedroid.GraphView
                     android:layout_width="fill_parent"
-                    android:layout_height="400dp"
+                    android:layout_height="300dp"
                     android:id="@+id/graph_panel"/>
             <LinearLayout
                     android:orientation="horizontal"
